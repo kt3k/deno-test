@@ -9,7 +9,7 @@ Run [Deno-style tests](https://docs.deno.com/runtime/fundamentals/testing/) with
 ## Install
 
 ```sh
-npm install --save-dev deno-test
+npm i -D deno-test
 ```
 
 ## Usage
