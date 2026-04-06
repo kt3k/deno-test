@@ -40,6 +40,29 @@ function findTestFiles(dir) {
   return results
 }
 
+const HELP = `\
+Usage: npx deno-test [options] [files/dirs...]
+
+Run Deno-style tests with Node.js. Discovers test files automatically
+or accepts explicit file/directory arguments.
+
+Options:
+  --filter <string>   Run only tests whose name contains the given string
+  -h, --help          Show this help message
+
+Test file patterns:
+  *_test.{ts,tsx,js,jsx,mts,mjs}
+  *.test.{ts,tsx,js,jsx,mts,mjs}
+  test.{ts,tsx,js,jsx}
+
+Examples:
+  npx deno-test                        Run all test files in current directory
+  npx deno-test test/                  Run all test files in test/ directory
+  npx deno-test test/math_test.ts      Run a specific test file
+  npx deno-test --filter "add"         Run only tests matching "add"
+  npx deno-test --filter "add" test/   Combine filter with directory
+`
+
 // Parse args
 const args = process.argv.slice(2)
 const files = []
@@ -47,7 +70,10 @@ let filter = undefined
 
 for (let i = 0; i < args.length; i++) {
   const arg = args[i]
-  if (arg === "--filter" && i + 1 < args.length) {
+  if (arg === "-h" || arg === "--help") {
+    console.log(HELP)
+    process.exit(0)
+  } else if (arg === "--filter" && i + 1 < args.length) {
     filter = args[++i]
   } else if (arg.startsWith("--filter=")) {
     filter = arg.slice("--filter=".length)
