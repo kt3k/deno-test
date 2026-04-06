@@ -1,0 +1,15 @@
+{
+  "name": "deno-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --import ./register-deno-hooks.mjs mod.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+  }
+}
