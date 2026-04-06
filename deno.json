@@ -1,6 +1,12 @@
 {
+  "lock": false,
   "fmt": {
     "semiColons": false
+  },
+  "lint": {
+    "exclude": [
+      "vendor"
+    ]
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19"

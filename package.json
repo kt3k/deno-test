@@ -1,15 +1,22 @@
 {
   "name": "deno-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "Run deno test with Node.js",
   "main": "index.js",
+  "bin": {
+    "deno-test": "./bin/deno-test.mjs"
+  },
   "scripts": {
-    "test": "node --import ./register-deno-hooks.mjs mod.ts"
+    "test": "deno test -A test.ts"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@deno/shim-deno-test": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2"
   }
 }
