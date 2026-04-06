@@ -15,14 +15,33 @@ for (const file of testFiles) {
   await import(file)
 }
 
+// Wrap node:test TestContext to provide Deno.TestContext (t.step)
+function wrapContext(nodeCtx) {
+  return {
+    step(nameOrFn, fn) {
+      let name
+      let testFn
+      if (typeof nameOrFn === "function") {
+        name = nameOrFn.name
+        testFn = nameOrFn
+      } else {
+        name = nameOrFn
+        testFn = fn
+      }
+      return nodeCtx.test(name, (childCtx) => testFn(wrapContext(childCtx)))
+    },
+  }
+}
+
 // Register collected tests with node:test
 for (const testDef of testDefinitions) {
   if (filter && !testDef.name.includes(filter)) {
     continue
   }
+  const wrappedFn = (nodeCtx) => testDef.fn(wrapContext(nodeCtx))
   if (testDef.ignore) {
-    test.skip(testDef.name, testDef.fn)
+    test.skip(testDef.name, wrappedFn)
   } else {
-    test(testDef.name, testDef.fn)
+    test(testDef.name, wrappedFn)
   }
 }
