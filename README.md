@@ -88,8 +88,8 @@ Import maps and `jsr:` specifiers work via `deno.json`:
 
 ## How it works
 
-1. The CLI discovers test files and spawns Node.js with a custom module resolution hook (`register-deno-hooks.mjs`) that handles Deno-style imports using `@deno/loader`.
-2. Test files are imported and `Deno.test()` calls are collected via `@deno/shim-deno-test`.
+1. The CLI discovers test files and spawns Node.js with a custom module resolution hook (`register-deno-hooks.mjs`) that handles Deno-style imports using [`@deno/loader`](https://jsr.io/@deno/loader).
+2. Test files are imported and `Deno.test()` calls are collected via [`@deno/shim-deno-test`](https://www.npmjs.com/package/@deno/shim-deno-test).
 3. Collected tests are registered with Node.js's built-in `node:test` runner, with `t.step()` mapped to `node:test`'s subtests.
 
 ## Requirements
