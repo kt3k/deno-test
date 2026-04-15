@@ -1,5 +1,3 @@
-# Deno-first なテストを Node.js でも動かしたいので `deno-test` を作った
-
 ## はじめに
 
 Deno でライブラリを書くとき、標準の `Deno.test` を使ったテスト体験はとても良いです。
@@ -30,8 +28,6 @@ Deno.test("example", () => {
 
 つまり、**Node.js 互換性のために、Deno の開発体験を捨てる**ことになります。
 
----
-
 ## やりたかったこと
 
 理想
@@ -44,8 +40,6 @@ Deno.test("example", () => {
 * JSR をそのまま使う
 * でも Node.js でも動く
 
----
-
 ## 解決: `deno-test`
 
 そこで作ったのが `deno-test` です。
@@ -56,7 +50,6 @@ npx deno-test
 
 これだけで、`deno test` とほぼ同じようにテストが実行されます。
 
----
 
 ## できること
 
@@ -70,7 +63,6 @@ Deno.test("sum", () => {
 
 → 書き換え不要で Node.js 上でも実行できます
 
----
 
 ### t.step に対応
 
@@ -82,7 +74,6 @@ Deno.test("nested", async (t) => {
 
 → これもそのまま動きます
 
----
 
 ### JSR / import map が使える
 
@@ -108,13 +99,9 @@ import { assertEquals } from "@std/assert";
 
 → Deno で書いていたときと同じ import の書き方のまま動きます
 
----
-
 ## 仕組み
 
 内部的には、いくつかの技術を組み合わせています。
-
----
 
 ### 1. JSR を Node.js で使う → @deno/loader
 
@@ -160,8 +147,6 @@ Node.js には当然 `Deno` グローバルが存在しません。
 
 構造になっています。
 
----
-
 ## 何が嬉しいか
 
 ### 1. Deno-first を維持できる
@@ -190,7 +175,6 @@ Node.js には当然 `Deno` グローバルが存在しません。
 
 → **JSR / Deno エコシステムのパッケージを、テストでそのまま使える**
 
----
 
 ## まとめ
 
@@ -199,8 +183,6 @@ Node.js には当然 `Deno` グローバルが存在しません。
 * `@deno/loader` によって JSR を解決
 * `@deno/shim-deno-test` によって Deno API を再現
 * `node:test` にマッピングして実行
-
----
 
 ## リポジトリ
 
