@@ -1,7 +1,8 @@
 {
   "lock": false,
   "fmt": {
-    "semiColons": false
+    "semiColons": false,
+    "exclude": ["zenn.md"]
   },
   "lint": {
     "exclude": [
