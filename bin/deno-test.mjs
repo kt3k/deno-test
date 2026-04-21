@@ -7,10 +7,12 @@ import process from "node:process"
 import { execFileSync } from "node:child_process"
 import { readdirSync, statSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const hooksPath = resolve(__dirname, "../register-deno-hooks.mjs")
+const hooksUrl = pathToFileURL(
+  resolve(__dirname, "../register-deno-hooks.mjs"),
+).href
 const runnerPath = resolve(__dirname, "../runner.mjs")
 
 // deno test default file patterns
@@ -120,7 +122,7 @@ env.DENO_TEST_FILES = testFiles.join("\n")
 try {
   execFileSync(
     process.execPath,
-    ["--test", "--import", hooksPath, runnerPath],
+    ["--test", "--import", hooksUrl, runnerPath],
     {
       stdio: "inherit",
       env,

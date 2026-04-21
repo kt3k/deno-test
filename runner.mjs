@@ -2,6 +2,7 @@
 
 import process from "node:process"
 import { test } from "node:test"
+import { pathToFileURL } from "node:url"
 import { Deno, testDefinitions } from "@deno/shim-deno-test"
 
 // Set up Deno.test global
@@ -12,7 +13,7 @@ const testFiles = process.env.DENO_TEST_FILES?.split("\n").filter(Boolean) ?? []
 const filter = process.env.DENO_TEST_FILTER
 
 for (const file of testFiles) {
-  await import(file)
+  await import(pathToFileURL(file).href)
 }
 
 // Wrap node:test TestContext to provide Deno.TestContext (t.step)

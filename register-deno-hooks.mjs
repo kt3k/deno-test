@@ -5,7 +5,7 @@
 import process from "node:process"
 import module from "node:module"
 import { readFileSync } from "node:fs"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 import {
   MediaType,
   RequestedModuleType,
@@ -21,11 +21,16 @@ const loader = await workspace.createLoader()
 const entrypoints = []
 const entrypoint = process.argv[1]
 if (entrypoint) {
-  entrypoints.push(entrypoint)
+  entrypoints.push(toEntrypointUrl(entrypoint))
 }
 // Also include test files passed via DENO_TEST_FILES env
 if (process.env.DENO_TEST_FILES) {
-  entrypoints.push(...process.env.DENO_TEST_FILES.split("\n").filter(Boolean))
+  entrypoints.push(
+    ...process.env.DENO_TEST_FILES
+      .split("\n")
+      .filter(Boolean)
+      .map(toEntrypointUrl),
+  )
 }
 if (entrypoints.length > 0) {
   const diagnostics = await loader.addEntrypoints(entrypoints)
@@ -140,3 +145,10 @@ module.registerHooks({
     return nextLoad(url, context)
   },
 })
+
+function toEntrypointUrl(pathOrUrl) {
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(pathOrUrl)) {
+    return pathOrUrl
+  }
+  return pathToFileURL(pathOrUrl).href
+}
