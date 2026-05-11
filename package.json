@@ -1,6 +1,6 @@
 {
   "name": "deno-test",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Run deno test with Node.js",
   "main": "index.js",
   "bin": {
