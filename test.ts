@@ -14,7 +14,7 @@ function run(
 Deno.test("runs all test files in a directory", () => {
   const { stdout, status } = run(["test/"])
   assertEquals(status, 0)
-  assertStringIncludes(stdout, "pass 16")
+  assertStringIncludes(stdout, "pass 18")
 })
 
 Deno.test("runs a single test file", () => {
@@ -36,7 +36,7 @@ Deno.test("auto-discovers test files from cwd", () => {
     cwd: resolve(import.meta.dirname!, "test"),
   })
   assertEquals(status, 0)
-  assertStringIncludes(stdout, "pass 16")
+  assertStringIncludes(stdout, "pass 18")
 })
 
 Deno.test("exits with error for nonexistent path", () => {

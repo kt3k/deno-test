@@ -120,6 +120,28 @@ module.registerHooks({
   },
 
   load(url, context, nextLoad) {
+    // Byte and text imports compat
+    const importType = context.importAttributes?.type
+    if (url.startsWith("file://")) {
+      const filePath = fileURLToPath(url)
+
+      if (importType === "bytes") {
+        const bytes = readFileSync(filePath)
+        return {
+          source: `export default new Uint8Array([${[...bytes].join(",")}]);`,
+          format: "module",
+          shortCircuit: true,
+        }
+      } else if (importType === "text") {
+        const text = readFileSync(filePath, "utf-8")
+        return {
+          source: `export default ${JSON.stringify(text)};`,
+          format: "module",
+          shortCircuit: true,
+        }
+      }
+    }
+
     // Return pre-transpiled code from cache
     const cached = moduleCache.get(url)
     if (cached) {
